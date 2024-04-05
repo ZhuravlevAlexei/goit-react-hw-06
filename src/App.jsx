@@ -1,13 +1,15 @@
 // import { useSelector } from 'react-redux';
 // import { selectContacts, selectFilter } from './Redux/contactsAndFilterSlice';
 
-import './App.css';
-// import css from './Filter.module.css';
-// import ContactForm from './ContactForm/ContactForm';
+//!!! import './App.css';
+import css from './App.module.css';
+import ContactForm from './components/ContactForm/ContactForm';
+
 // import Filter from './Filter/Filter';
+// ???now import css from './Filter.module.css';
 // import ContactList from './ContactList/ContactList';
 // import ContactElement from './ContactElement/ContactElement';
-// import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   // let contacts = useSelector(selectContacts);
@@ -19,12 +21,10 @@ const App = () => {
   // });
 
   return (
-    <div className="phonebookArea">
-      {/* <Toaster /> */}
-
-      {/* <Toaster position="top-right" toastOptions={{ duration: 1500 }} /> */}
-      <h3 className="mainTitle">Phonebook</h3>
-      {/* <ContactForm /> */}
+    <div className={css.phonebookArea}>
+      <Toaster position="top-right" toastOptions={{ duration: 1500 }} />
+      <h3 className={css.mainTitle}>Phonebook</h3>
+      <ContactForm />
       <h3>Contacts</h3>
       {/* <Filter /> */}
       {/* <ContactList> */}
