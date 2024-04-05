@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useSelector } from 'react-redux';
+// import { selectContacts, selectFilter } from './Redux/contactsAndFilterSlice';
 
-function App() {
-  const [count, setCount] = useState(0)
+import './App.css';
+// import css from './Filter.module.css';
+// import ContactForm from './ContactForm/ContactForm';
+// import Filter from './Filter/Filter';
+// import ContactList from './ContactList/ContactList';
+// import ContactElement from './ContactElement/ContactElement';
+// import { Toaster } from 'react-hot-toast';
+
+const App = () => {
+  // let contacts = useSelector(selectContacts);
+  // const filter = useSelector(selectFilter);
+
+  // const loFilter = filter.toLowerCase();
+  // contacts = contacts.filter(contact => {
+  //   return contact.name.toLowerCase().includes(loFilter);
+  // });
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="phonebookArea">
+      {/* <Toaster /> */}
 
-export default App
+      {/* <Toaster position="top-right" toastOptions={{ duration: 1500 }} /> */}
+      <h3 className="mainTitle">Phonebook</h3>
+      {/* <ContactForm /> */}
+      <h3>Contacts</h3>
+      {/* <Filter /> */}
+      {/* <ContactList> */}
+      {/* <ContactElement contacts={contacts} /> */}
+      {/* </ContactList> */}
+    </div>
+  );
+};
+
+export default App;
