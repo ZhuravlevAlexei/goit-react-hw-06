@@ -1,5 +1,5 @@
 .contactForm {
-  width: 400px;
+  width: 350px;
   height: 200px;
   border: 2px solid black;
   border-radius: 5px;
@@ -10,7 +10,7 @@
   flex-direction: column;
   margin-left: 15px;
   margin-top: 5px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 }
 
 .contactInput {
@@ -21,10 +21,19 @@
 }
 
 .addBtn {
-  height: 26.67px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 4px;
+  padding-bottom: 8px;
+  height: 30px;
   width: 110px;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  font: Arial;
   background-color: lightgrey;
+  border-color: black;
+  border-width: 2 px;
   border-radius: 5px;
   margin-left: 15px;
+  place-items: center;
 }

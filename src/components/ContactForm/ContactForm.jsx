@@ -1,45 +1,47 @@
-// import { useSelector, useDispatch } from 'react-redux';
-// import { nanoid } from '@reduxjs/toolkit';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-// import {
-//   selectName,
-//   selectNumber,
-//   updateName,
-//   updateNumber,
-// } from '../Redux/nameAndNumberSlice';
-// import { addContact, selectContacts } from '../Redux/contactsAndFilterSlice';
-
+import { addContact, selectContacts } from '../../redux/contactsSlice';
 import css from './ContactForm.module.css';
+
 import { toast } from 'react-hot-toast';
+import { nanoid } from '@reduxjs/toolkit';
 
 const ContactForm = () => {
-  // let contactName = useSelector(selectName);
-  // const contactNumber = useSelector(selectNumber);
-  // const contacts = useSelector(selectContacts);
-  // const dispatch = useDispatch();
+  const [contactName, setContactName] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
 
   const onSubmit = evt => {
     evt.preventDefault();
+    // const contactName = contactName.trim();
+    const tempName = contactName.toLowerCase();
+    const foundContact = contacts.find(
+      cont => cont.name.toLowerCase() === tempName.toLowerCase()
+    );
+    if (foundContact) {
+      toast.error(`${foundContact.name} is already in contact list.`);
+      return;
+    }
 
-    // contactName = contactName.trim();
-    // const foundContact = contacts.find(
-    //   cont => cont.name.toLowerCase() === contactName.toLowerCase()
-    // );
-    // if (foundContact) {
-    //   toast.error(`${foundContact.name} is already in contact list.`);
-    //   return;
+    const newContact = {
+      id: nanoid(),
+      name: contactName,
+      number: contactNumber,
+    };
+
+    dispatch(addContact(newContact));
+    //   dispatch(updateName(''));
+    //   dispatch(updateNumber(''));
   };
 
-  //   const newContact = {
-  //     id: nanoid(),
-  //     name: contactName,
-  //     number: contactNumber,
-  //   };
-
-  //   dispatch(addContact(newContact));
-  //   dispatch(updateName(''));
-  //   dispatch(updateNumber(''));
-  // };
+  const handleNameChange = evt => {
+    setContactName(evt.currentTarget.value.trim());
+  };
+  const handleNumberChange = evt => {
+    setContactNumber(evt.currentTarget.value.trim());
+  };
 
   return (
     <form className={css.contactForm} onSubmit={onSubmit}>
@@ -50,10 +52,11 @@ const ContactForm = () => {
           type="text"
           name="name"
           autoComplete="on"
-          // value={contactName}
+          value={contactName}
+          // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          // onChange={evt => dispatch(updateName(evt.currentTarget.value))}
+          onChange={handleNameChange}
         />
       </label>
       <label className={css.contactLabel}>
@@ -63,10 +66,11 @@ const ContactForm = () => {
           type="tel"
           name="number"
           autoComplete="on"
-          // value={contactNumber}
+          value={contactNumber}
+          // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          // onChange={evt => dispatch(updateNumber(evt.currentTarget.value))}
+          onChange={handleNumberChange}
         />
       </label>
       <button className={css.addBtn} type="submit">

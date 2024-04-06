@@ -1,0 +1,18 @@
+.contItem {
+  display: flex;
+  place-items: center;
+  height: 25px;
+}
+
+.delButton {
+  height: 23px;
+  width: 80px;
+  margin-left: 15px;
+  padding: 2px 5px 2px 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: lightgrey;
+  border-color: black;
+  border-width: 2 px;
+  place-items: center;
+}
