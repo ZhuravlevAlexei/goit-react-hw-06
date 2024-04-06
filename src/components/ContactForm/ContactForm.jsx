@@ -35,8 +35,8 @@ const ContactForm = () => {
 
     const newContact = {
       id: nanoid(),
-      name: contactName,
-      number: contactNumber,
+      name: contactName.trim(),
+      number: contactNumber.trim(),
     };
 
     dispatch(addContact(newContact));
@@ -47,10 +47,10 @@ const ContactForm = () => {
   };
 
   const handleNameChange = evt => {
-    setContactName(evt.currentTarget.value.trim());
+    setContactName(evt.currentTarget.value);
   };
   const handleNumberChange = evt => {
-    setContactNumber(evt.currentTarget.value.trim());
+    setContactNumber(evt.currentTarget.value);
   };
 
   return (

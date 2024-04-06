@@ -1,7 +1,9 @@
 import { Toaster } from 'react-hot-toast';
+// import { ErrorMessage, Field, Form, Formik } from 'formik';
+// import * as Yup from 'yup';
 
 import ContactForm from './components/ContactForm/ContactForm';
-import Filter from './components/Filter/Filter';
+import SearchBox from './components/SearchBox/SearchBox';
 import ContactList from './components/ContactList/ContactList';
 
 import css from './App.module.css';
@@ -13,10 +15,8 @@ const App = () => {
       <h3 className={css.mainTitle}>Phonebook</h3>
       <ContactForm />
       <h3>Contacts</h3>
-      <Filter />
-      <ul className={css.contListArea}>
-        <ContactList />
-      </ul>
+      <SearchBox />
+      <ul className={css.contListArea}>{<ContactList />}</ul>
     </div>
   );
 };
