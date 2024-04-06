@@ -19,10 +19,14 @@ const contactsSlice = createSlice({
     deleteContact(state, action) {
       state.items = state.items.filter(item => item.id !== action.payload);
     },
+    sortContacts(state) {
+      state.items.sort((a, b) => a.name.localeCompare(b.name));
+    },
   },
 });
 
 export const selectContacts = state => state.contacts.items;
-export const { addContact, deleteContact } = contactsSlice.actions;
+export const { addContact, deleteContact, sortContacts } =
+  contactsSlice.actions;
 
 export default contactsSlice.reducer;

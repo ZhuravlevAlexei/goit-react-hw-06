@@ -4,7 +4,6 @@ import { selectFilters, updateFilter } from '../../redux/filtersSlice.js';
 
 const Filter = () => {
   const filter = useSelector(selectFilters);
-  console.log('filter: ', filter);
   const dispatch = useDispatch();
   return (
     <label className={css.contactLabel}>

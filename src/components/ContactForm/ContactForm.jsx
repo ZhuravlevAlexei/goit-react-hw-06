@@ -1,7 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addContact, selectContacts } from '../../redux/contactsSlice';
+import {
+  addContact,
+  sortContacts,
+  selectContacts,
+} from '../../redux/contactsSlice';
 import css from './ContactForm.module.css';
 
 import { toast } from 'react-hot-toast';
@@ -13,9 +17,13 @@ const ContactForm = () => {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(sortContacts());
+  }, [dispatch]);
+
   const onSubmit = evt => {
     evt.preventDefault();
-    // const contactName = contactName.trim();
+
     const tempName = contactName.toLowerCase();
     const foundContact = contacts.find(
       cont => cont.name.toLowerCase() === tempName.toLowerCase()
@@ -32,8 +40,10 @@ const ContactForm = () => {
     };
 
     dispatch(addContact(newContact));
-    //   dispatch(updateName(''));
-    //   dispatch(updateNumber(''));
+    dispatch(sortContacts());
+
+    setContactName('');
+    setContactNumber('');
   };
 
   const handleNameChange = evt => {
