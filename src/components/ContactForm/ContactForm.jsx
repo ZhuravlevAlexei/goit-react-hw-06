@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -11,9 +14,29 @@ import css from './ContactForm.module.css';
 import { toast } from 'react-hot-toast';
 import { nanoid } from '@reduxjs/toolkit';
 
+const formikValidationShema = Yup.object({
+  name: Yup.string()
+    .min(3, 'Must be at least 3 characters')
+    .max(40, 'Must be max 40 characters or less')
+    .matches(
+      /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    )
+    .required('Required'),
+  number: Yup.string()
+    .min(
+      10,
+      'Must be at least 10 digits. If you have 8 or less, add few 0 in front to match format'
+    )
+    .max(20, 'Must be max 20 digits')
+    .matches(
+      /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+    )
+    .required('Required'),
+});
+
 const ContactForm = () => {
-  const [contactName, setContactName] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
@@ -21,10 +44,8 @@ const ContactForm = () => {
     dispatch(sortContacts());
   }, [dispatch]);
 
-  const onSubmit = evt => {
-    evt.preventDefault();
-
-    const tempName = contactName.toLowerCase();
+  const handleSubmit = (values, actions) => {
+    const tempName = values.name.toLowerCase();
     const foundContact = contacts.find(
       cont => cont.name.toLowerCase() === tempName.toLowerCase()
     );
@@ -35,56 +56,51 @@ const ContactForm = () => {
 
     const newContact = {
       id: nanoid(),
-      name: contactName.trim(),
-      number: contactNumber.trim(),
+      name: values.name.trim(),
+      number: values.number.trim(),
     };
 
     dispatch(addContact(newContact));
     dispatch(sortContacts());
 
-    setContactName('');
-    setContactNumber('');
-  };
-
-  const handleNameChange = evt => {
-    setContactName(evt.currentTarget.value);
-  };
-  const handleNumberChange = evt => {
-    setContactNumber(evt.currentTarget.value);
+    actions.resetForm();
   };
 
   return (
-    <form className={css.contactForm} onSubmit={onSubmit}>
-      <label className={css.contactLabel}>
-        Name
-        <input
-          className={css.contactInput}
-          type="text"
-          name="name"
-          autoComplete="on"
-          value={contactName}
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          onChange={handleNameChange}
-        />
-      </label>
-      <label className={css.contactLabel}>
-        Number
-        <input
-          className={css.contactInput}
-          type="tel"
-          name="number"
-          autoComplete="on"
-          value={contactNumber}
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-          onChange={handleNumberChange}
-        />
-      </label>
-      <button className={css.addBtn} type="submit">
-        Add contact
-      </button>
-    </form>
+    <Formik
+      initialValues={{
+        name: '',
+        number: '',
+      }}
+      validationSchema={formikValidationShema}
+      onSubmit={handleSubmit}
+    >
+      <Form className={css.contactForm}>
+        <label className={css.contactLabel}>
+          <span className={css.contactInput}>Name</span>
+          <Field className={css.contactInput} type="text" name="name" />
+          <ErrorMessage
+            className={css.contactError}
+            component="p"
+            name="name"
+          />
+        </label>
+        <label className={css.contactLabel}>
+          <span className={css.contactInput}>Number</span>
+          <Field className={css.contactInput} type="text" name="number" />
+          <ErrorMessage
+            className={css.contactError}
+            component="p"
+            name="number"
+          />
+        </label>
+        <div className={css.buttonWrapper}>
+          <button className={css.addBtn} type="submit">
+            Add contact
+          </button>
+        </div>
+      </Form>
+    </Formik>
   );
 };
 
